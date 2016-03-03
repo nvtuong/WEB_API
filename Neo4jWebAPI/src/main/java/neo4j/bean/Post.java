@@ -8,15 +8,18 @@ public class Post {
 	private String numLike;
 	private String postDate;
 	private String location; 
-	
+	public String userName, userAvatar;
+        
 	public Post (String postID, String content, String listImages, String numLike,
-			String postDate, String location) {
+			String postDate, String location, String userName, String userAvatar) {
 		this.setPostID(postID);
 		this.setContent(content);
 		this.setListImages(listImages);
 		this.setNumLike(numLike);
 		this.setPostDate(postDate);
 		this.setLocation(location);
+                this.userName = userName;
+                this.userAvatar = userAvatar;
 	}
 
 	public String getPostID() {

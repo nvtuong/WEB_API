@@ -16,25 +16,26 @@ public class PostDAO {
 	}
 	
 	public Post GetPostDetail(String postID) throws ClassNotFoundException, SQLException{
-		String query = "match (n:Post{id : '" + postID + "'}) "
-				+ "return n.id, n.content, n.listImage, n.numLike, n.location, n.day";
+		String query = "match (n:Post{id : '" + postID + "'}) <-[:POST]- (u:User) "
+			+ "return u.name, u.avatar, n.id, n.content, n.listImage, "
+                        + "n.numLike, n.location, n.day";
 		// Make sure Neo4j Driver is registered
 		Class.forName("org.neo4j.jdbc.Driver");
 		// Connect
 		Connection con = DriverManager.getConnection("jdbc:neo4j://localhost:7474/", "neo4j", "hvngoc");
 		// Querying
 		try {
-			final PreparedStatement statement = con.prepareStatement(query);
-			System.out.println("Done");
-			final ResultSet result = statement.executeQuery();
-			 while(result.next())
-			 {
-				 Post post = new Post(result.getString("n.id"), result.getString("n.content"), 
-						 result.getString("n.listImage"), result.getString("n.numLike"), 
-						 result.getString("n.day"), result.getString("n.location"));
-				 return post;
-			 }
-			return null;
+                    final PreparedStatement statement = con.prepareStatement(query);
+                    System.out.println("Done");
+                    final ResultSet result = statement.executeQuery();
+                    while(result.next()){
+                        Post post = new Post(result.getString("n.id"), result.getString("n.content"), 
+                                result.getString("n.listImage"), result.getString("n.numLike"), 
+                                result.getString("n.day"), result.getString("n.location"),
+                                result.getString("u.name"), result.getString("n.avatar"));
+                        return post;
+                    }
+                    return null;
 		}
 		catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -112,52 +113,52 @@ public class PostDAO {
 	
 	public ArrayList<Post> GetListPostOfFriend(String userID) throws ClassNotFoundException, SQLException{
 		String query = "match (u:User{id : '" + userID + "'}) - [:FRIEND] -> (uu:User) - [:POST] -> (n:Post) "
-				+ "return n.id, n.content, n.listImage, n.numLike, n.location, n.day";
+				+ "return uu.name, uu.avatar, n.id, n.content, n.listImage, n.numLike, n.location, n.day";
 		// Make sure Neo4j Driver is registered
 		Class.forName("org.neo4j.jdbc.Driver");
 		// Connect
 		Connection con = DriverManager.getConnection("jdbc:neo4j://localhost:7474/", "neo4j", "hvngoc");
 		// Querying
 		try {
-			final PreparedStatement statement = con.prepareStatement(query);
-			System.out.println("Done");
-			final ResultSet result = statement.executeQuery();
-			ArrayList<Post> listPost = new ArrayList<Post>();
-			 while(result.next())
-			 {
-				 Post post = new Post(result.getString("n.id"), result.getString("n.content"), 
-						 result.getString("n.listImage"), result.getString("n.numLike"), 
-						 result.getString("n.day"), result.getString("n.location"));
-				listPost.add(post);
-			 }
-			return listPost;
+                    final PreparedStatement statement = con.prepareStatement(query);
+                    System.out.println("Done");
+                    final ResultSet result = statement.executeQuery();
+                    ArrayList<Post> listPost = new ArrayList<Post>();
+                    while(result.next()){
+                        Post post = new Post(result.getString("n.id"), result.getString("n.content"), 
+                                result.getString("n.listImage"), result.getString("n.numLike"), 
+				result.getString("n.day"), result.getString("n.location"),
+                                result.getString("uu.name"), result.getString("uu.avatar"));
+                        listPost.add(post);
+			}
+                    return listPost;
 		}
 		catch (SQLException e) {
-			throw new RuntimeException(e);
+                    throw new RuntimeException(e);
 		}
 	}
 	
 	public ArrayList<Post> GetListPostAndSharedOfUser(String userID) throws ClassNotFoundException, SQLException{
 		String query = "match (u:User{id : '" + userID + "'}) - [:POST|:SHARE] -> (n:Post) "
-				+ "return n.id, n.content, n.listImage, n.numLike, n.location, n.day";
+				+ "return u.name, u.avatar, n.id, n.content, n.listImage, n.numLike, n.location, n.day";
 		// Make sure Neo4j Driver is registered
 		Class.forName("org.neo4j.jdbc.Driver");
 		// Connect
 		Connection con = DriverManager.getConnection("jdbc:neo4j://localhost:7474/", "neo4j", "hvngoc");
 		// Querying
 		try {
-			final PreparedStatement statement = con.prepareStatement(query);
-			System.out.println("Done");
-			final ResultSet result = statement.executeQuery();
-			ArrayList<Post> listPost = new ArrayList<Post>();
-			 while(result.next())
-			 {
-				 Post post = new Post(result.getString("n.id"), result.getString("n.content"), 
-						 result.getString("n.listImage"), result.getString("n.numLike"), 
-						 result.getString("n.day"), result.getString("n.location"));
-				listPost.add(post);
-			 }
-			return listPost;
+                    final PreparedStatement statement = con.prepareStatement(query);
+                    System.out.println("Done");
+                    final ResultSet result = statement.executeQuery();
+                    ArrayList<Post> listPost = new ArrayList<Post>();
+                    while(result.next()){
+                        Post post = new Post(result.getString("n.id"), result.getString("n.content"), 
+                                result.getString("n.listImage"), result.getString("n.numLike"), 
+				result.getString("n.day"), result.getString("n.location"),
+                                result.getString("u.name"), result.getString("u.avatar"));
+                        listPost.add(post);
+                    }
+                    return listPost;
 		}
 		catch (SQLException e) {
 			throw new RuntimeException(e);

@@ -15,8 +15,9 @@ public class CommentDAO {
 	}
 	
 	public ArrayList<Comment> GetALLCommentOfPost(String postID) throws ClassNotFoundException, SQLException{
-		String query = "match (p:Post{id : '" + postID + "'}) - [:HAS_COMMENT] -> (c:Comment) "
-				+ "return c.id, c.content, c.userID, c.day";
+                String query = "match (p:Post{id: '" + postID + "'}) - [HAS_COMMENT] -> (c:Comment), (u:User{id : c.userID}) "
+                        + "return c.id, u.name, u.avatar, c.content, c.day";
+                
 		// Make sure Neo4j Driver is registered
 		Class.forName("org.neo4j.jdbc.Driver");
 		// Connect
@@ -30,7 +31,7 @@ public class CommentDAO {
 			 while(result.next())
 			 {
 				 Comment comment= new Comment(result.getString("c.id"), result.getString("c.content"), 
-						 result.getString("c.userID"), result.getString("c.day"));
+						 result.getString("u.name"), result.getString("u.avatar"), result.getString("c.day"));
 				listComment.add(comment);
 			 }
 			return listComment;
