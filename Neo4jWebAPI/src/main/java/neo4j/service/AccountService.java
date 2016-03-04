@@ -27,8 +27,8 @@ public class AccountService {
     public void setNewPasswordAccount(String id, String password)throws SQLException, ClassNotFoundException {
         accountDAO.setNewPasswordAccount(id, password);
     }
-    public void registerNewAccount(String name, String email, String password)throws SQLException, ClassNotFoundException {
-        accountDAO.registerNewAccount(name, email, password);
+    public User registerNewAccount(String name, String email, String password)throws SQLException, ClassNotFoundException {
+        return accountDAO.registerNewAccount(name, email, password);
     }
         
 }

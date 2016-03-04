@@ -35,6 +35,9 @@ public class AccountDAO {
             System.out.println("Done");
             final ResultSet result = statement.executeQuery();
             while(result.next()) {
+                int num = Integer.parseInt(result.getString("num"));
+                if (num == 0)
+                    return false;
                 return true;
             }
         }catch (SQLException e) {
@@ -81,8 +84,8 @@ public class AccountDAO {
             throw new RuntimeException(e);
         }
     } 
-    public void registerNewAccount(String name, String email, String password)throws SQLException, ClassNotFoundException {
-        String id = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
+    public User registerNewAccount(String name, String email, String password)throws SQLException, ClassNotFoundException {
+        String id = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss.SSS").format(new Date());
         String query = "CREATE (a:Account {id : '" + id + "', email : '" + email + "', password : '" + password + "'}) "
                 + "- [r : USER_ACCOUNT] -> (u:User{id : '" + id + "', name : '" + name + "'})";
 	// Make sure Neo4j Driver is registered
@@ -97,5 +100,6 @@ public class AccountDAO {
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return new User(id, name, null);
     }
 }
