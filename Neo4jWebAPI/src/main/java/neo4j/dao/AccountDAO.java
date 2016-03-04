@@ -58,7 +58,7 @@ public class AccountDAO {
             User user = null;
             while(result.next()) {
                 user = new User(result.getString("u.id"), result.getString("u.name"), result.getString("u.avatar"));
-                System.out.println(result.getString("user.name"));
+                
                 return user;
             }
             return user;
