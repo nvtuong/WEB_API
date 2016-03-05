@@ -17,7 +17,7 @@ public class UserService {
         return this.userDAO.getUserInfor(userId);
     }
     
-    public void setAvatarForUser(String userId, String avatar) throws SQLException, ClassNotFoundException {
-        this.userDAO.setAvatarForUser(userId, avatar);
-    }
+//    public void setAvatarForUser(String userId, String avatar) throws SQLException, ClassNotFoundException {
+//        this.userDAO.setAvatarForUser(userId, avatar);
+//    }
 }

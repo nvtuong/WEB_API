@@ -46,6 +46,25 @@ public class AccountDAO {
         return false;
     }
     
+    public User registerNewAccount(String name, String email, String password)throws SQLException, ClassNotFoundException {
+        String id = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss.SSS").format(new Date());
+        String query = "CREATE (a:Account {id : '" + id + "', email : '" + email + "', password : '" + password + "'}) "
+                + "- [r : USER_ACCOUNT] -> (u:User{id : '" + id + "', name : '" + name + "'})";
+	// Make sure Neo4j Driver is registered
+        Class.forName("org.neo4j.jdbc.Driver");
+	// Connect
+        Connection con = DriverManager.getConnection("jdbc:neo4j://localhost:7474/", "neo4j", "hvngoc");
+	// Querying
+        try {
+            final PreparedStatement statement = con.prepareStatement(query);
+            System.out.println("Done");
+            final ResultSet result = statement.executeQuery();
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return new User(id, name, null);
+    }
+    
     public User loginWithEmailAndPassword(String email, String password) throws SQLException, ClassNotFoundException {
         String query = "match (a:Account{email : '" + email + "', password : '" + password +"'}) -[r: USER_ACCOUNT]-> (u:User) "
                 + "return u.id, u.name, u.avatar";
@@ -69,37 +88,19 @@ public class AccountDAO {
             throw new RuntimeException(e);
         }
     }
-    public void setNewPasswordAccount(String id, String password)throws SQLException, ClassNotFoundException {
-        String query = "match (a:Account{id : '" + id + "'}) SET a.password = '" + password + "'";
-	// Make sure Neo4j Driver is registered
-        Class.forName("org.neo4j.jdbc.Driver");
-	// Connect
-        Connection con = DriverManager.getConnection("jdbc:neo4j://localhost:7474/", "neo4j", "hvngoc");
-	// Querying
-        try {
-            final PreparedStatement statement = con.prepareStatement(query);
-            System.out.println("Done");
-            final ResultSet result = statement.executeQuery();
-        }catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    } 
-    public User registerNewAccount(String name, String email, String password)throws SQLException, ClassNotFoundException {
-        String id = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss.SSS").format(new Date());
-        String query = "CREATE (a:Account {id : '" + id + "', email : '" + email + "', password : '" + password + "'}) "
-                + "- [r : USER_ACCOUNT] -> (u:User{id : '" + id + "', name : '" + name + "'})";
-	// Make sure Neo4j Driver is registered
-        Class.forName("org.neo4j.jdbc.Driver");
-	// Connect
-        Connection con = DriverManager.getConnection("jdbc:neo4j://localhost:7474/", "neo4j", "hvngoc");
-	// Querying
-        try {
-            final PreparedStatement statement = con.prepareStatement(query);
-            System.out.println("Done");
-            final ResultSet result = statement.executeQuery();
-        }catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return new User(id, name, null);
-    }
+//    public void setNewPasswordAccount(String id, String password)throws SQLException, ClassNotFoundException {
+//        String query = "match (a:Account{id : '" + id + "'}) SET a.password = '" + password + "'";
+//	// Make sure Neo4j Driver is registered
+//        Class.forName("org.neo4j.jdbc.Driver");
+//	// Connect
+//        Connection con = DriverManager.getConnection("jdbc:neo4j://localhost:7474/", "neo4j", "hvngoc");
+//	// Querying
+//        try {
+//            final PreparedStatement statement = con.prepareStatement(query);
+//            System.out.println("Done");
+//            final ResultSet result = statement.executeQuery();
+//        }catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    } 
 }

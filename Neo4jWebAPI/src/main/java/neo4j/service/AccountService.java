@@ -24,11 +24,11 @@ public class AccountService {
     public User loginWithEmailAndPassword(String email, String password) throws SQLException, ClassNotFoundException {
         return accountDAO.loginWithEmailAndPassword(email, password);
     }   
-    public void setNewPasswordAccount(String id, String password)throws SQLException, ClassNotFoundException {
-        accountDAO.setNewPasswordAccount(id, password);
-    }
     public User registerNewAccount(String name, String email, String password)throws SQLException, ClassNotFoundException {
         return accountDAO.registerNewAccount(name, email, password);
     }
+//    public void setNewPasswordAccount(String id, String password)throws SQLException, ClassNotFoundException {
+//        accountDAO.setNewPasswordAccount(id, password);
+//    }
         
 }

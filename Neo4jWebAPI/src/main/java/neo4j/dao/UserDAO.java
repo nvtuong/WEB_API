@@ -36,19 +36,19 @@ public class UserDAO {
         }
     }
    
-    public void setAvatarForUser(String userId, String avatar) throws SQLException, ClassNotFoundException {
-        String query = "match (user:User{id : '" + userId + "'}) SET u.avatar = '" + avatar + "'";
-	// Make sure Neo4j Driver is registered
-        Class.forName("org.neo4j.jdbc.Driver");
-	// Connect
-        Connection con = DriverManager.getConnection("jdbc:neo4j://localhost:7474/", "neo4j", "hvngoc");
-	// Querying
-        try {
-            final PreparedStatement statement = con.prepareStatement(query);
-            System.out.println("Done");
-            final ResultSet result = statement.executeQuery();
-        }catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }   
+//    public void setAvatarForUser(String userId, String avatar) throws SQLException, ClassNotFoundException {
+//        String query = "match (user:User{id : '" + userId + "'}) SET u.avatar = '" + avatar + "'";
+//	// Make sure Neo4j Driver is registered
+//        Class.forName("org.neo4j.jdbc.Driver");
+//	// Connect
+//        Connection con = DriverManager.getConnection("jdbc:neo4j://localhost:7474/", "neo4j", "hvngoc");
+//	// Querying
+//        try {
+//            final PreparedStatement statement = con.prepareStatement(query);
+//            System.out.println("Done");
+//            final ResultSet result = statement.executeQuery();
+//        }catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }   
 }

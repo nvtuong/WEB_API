@@ -2,6 +2,7 @@ package neo4j.controller;
 
 import java.sql.SQLException;
 import java.util.List;
+import neo4j.bean.Comment;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,30 +14,34 @@ import org.springframework.web.bind.annotation.RestController;
 import neo4j.bean.Post;
 import neo4j.bean.User;
 import neo4j.service.AccountService;
+import neo4j.service.CommentService;
 import neo4j.service.PostService;
 
 
 @RestController
 public class HomeController {
-
-//    @RequestMapping(value = "/neo4j/{userID}", method = RequestMethod.GET,headers="Accept=application/json")
-//    public User GetUserInfo(@PathVariable String userID) throws ClassNotFoundException, SQLException
-//    {
-//            UserService userService = new UserService();	
-//            return userService.getUserInfor(userID);
-//    }
     
-    @RequestMapping(value = "/neo4j/checkemail", method = RequestMethod.POST,headers="Accept=application/json")
-    public ResponseEntity<Boolean> CheckEmail(@RequestBody String email) throws ClassNotFoundException, SQLException
+    @RequestMapping(value = "/neo4j/getAllComment", method = RequestMethod.POST,headers="Accept=application/json")
+    public ResponseEntity<List<Comment>> GetALLCommentOfPost(@RequestBody String postID) throws ClassNotFoundException, SQLException
     {
-    	System.out.println("check email");
-        AccountService service = new AccountService();
-        Boolean check = service.checkExistEmail(email);
-        System.out.println(check);
-        //true means exist email then return false
-        if(check)
-            return new ResponseEntity<Boolean>(check, HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<Boolean>(check, HttpStatus.OK);
+    	System.out.println("get all comment");
+        CommentService service = new CommentService();
+        List<Comment> listComment = null; 
+        	try {
+			listComment = service.GetALLCommentOfPost(postID);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(listComment == null || listComment.size() == 0)
+			return new ResponseEntity<List<Comment>>(listComment, HttpStatus.BAD_REQUEST);
+		else
+			System.out.println("Posts count: " + listComment.size());
+        return new ResponseEntity<List<Comment>>(listComment, HttpStatus.OK);
+        
     }
     
     @RequestMapping(value = "/neo4j/register", method = RequestMethod.POST,headers="Accept=application/json")
@@ -50,6 +55,9 @@ public class HomeController {
         String password = register.substring(index1 + 1, index2);
         String name = register.substring(index2 + 1, register.length());
         
+        Boolean check = service.checkExistEmail(email);
+        if(check)
+            return new ResponseEntity<User>(new User(), HttpStatus.BAD_REQUEST);
         User user = service.registerNewAccount(name, email, password);
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }

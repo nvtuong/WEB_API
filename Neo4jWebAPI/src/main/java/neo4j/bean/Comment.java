@@ -3,16 +3,18 @@ package neo4j.bean;
 public class Comment {
     private String id;
     private String content;
+    private String commentDate;
+    private String userID;
     private String userName;
     private String userAvatar;
-    private String commentDate;
-
-    public Comment(String id, String content, String userName, String userAvatar, String commentDate){
+    
+    public Comment(String id, String content, String commentDate, String userId, String userName, String userAvatar){
         this.id = id;
         this.content = content;
         this.userName = userName;
         this.userAvatar = userAvatar;
         this.commentDate = commentDate;
+        this.userID = userId;
     }
 
     public String getId() {
@@ -47,11 +49,19 @@ public class Comment {
         this.userAvatar = userAvatar;
     }
 
-    public String getPostDate() {
+    public String getCommentDate() {
         return this.commentDate;
     }
 
-    public void setPostDate(String commentDate) {
+    public void setCommentDate(String commentDate) {
         this.commentDate = commentDate;
+    }
+    
+    public void setUserID(String userID){
+        this.userID = userID;
+    }
+    
+    public String getUserID(){
+        return this.userID;
     }
 }	

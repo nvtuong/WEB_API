@@ -14,15 +14,11 @@ public class PostService {
 		this.postDAO = new PostDAO();
 	}
 	
-//	public Post GetPostDetail(String postID) throws ClassNotFoundException, SQLException{
-//		return this.postDAO.GetPostDetail(postID);
-//	}
-	
 	public ArrayList<Post> GetListPostOfFriend(String userID) throws ClassNotFoundException, SQLException{
 		return this.postDAO.GetListPostOfFriend(userID);
 	}
 	
-	public ArrayList<Post> GetListPostAndSharedOfUser(String userID) throws ClassNotFoundException, SQLException{
-		return this.postDAO.GetListPostAndSharedOfUser(userID);
-	}
+//	public ArrayList<Post> GetListPostAndSharedOfUser(String userID) throws ClassNotFoundException, SQLException{
+//		return this.postDAO.GetListPostAndSharedOfUser(userID);
+//	}
 }
