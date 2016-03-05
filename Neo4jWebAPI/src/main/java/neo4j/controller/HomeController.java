@@ -72,7 +72,7 @@ public class HomeController {
     
     @RequestMapping(value = "/neo4j/getAllPost", method = RequestMethod.POST,headers="Accept=application/json")
     public ResponseEntity<List<Post>> getAllPostOfFriends(@RequestBody String userID) {
-    	System.out.println("Userid: " + userID);
+    	System.out.println("Controller Userid: " + userID);
         PostService service = new PostService();
         List<Post> posts = null;
 		try {

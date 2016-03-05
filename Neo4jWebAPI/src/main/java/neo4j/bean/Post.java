@@ -5,21 +5,32 @@ public class Post {
 	private String postID;
 	private String content;
 	private String listImages;
-	private String numLike;
 	private String postDate;
-	private String location; 
-	public String userName, userAvatar;
+	private String location;
+        public String feeling;
         
-	public Post (String postID, String content, String listImages, String numLike,
-			String postDate, String location, String userName, String userAvatar) {
+	public String userName, userAvatar;
+        public String relationShip;
+        
+        public int numLike, numShare, numComment;
+        
+	public Post (String postID, String content, String listImages,
+			String postDate, String location, String feeling,
+                        String userName, String userAvatar, String relationShip,
+                        int numLike, int numShare, int numComment) {
 		this.setPostID(postID);
 		this.setContent(content);
 		this.setListImages(listImages);
-		this.setNumLike(numLike);
 		this.setPostDate(postDate);
 		this.setLocation(location);
+                this.feeling = feeling;
                 this.userName = userName;
                 this.userAvatar = userAvatar;
+                this.relationShip = relationShip;
+                
+                this.numLike = numLike;
+                this.numShare = numShare;
+                this.numComment = numComment;
 	}
 
 	public String getPostID() {
@@ -46,13 +57,6 @@ public class Post {
 		this.listImages = listImages;
 	}
 
-	public String getNumLike() {
-		return numLike;
-	}
-
-	public void setNumLike(String numLike) {
-		this.numLike = numLike;
-	}
 
 	public String getPostDate() {
 		return postDate;

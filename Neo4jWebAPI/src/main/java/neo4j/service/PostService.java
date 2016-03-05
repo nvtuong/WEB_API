@@ -14,9 +14,9 @@ public class PostService {
 		this.postDAO = new PostDAO();
 	}
 	
-	public Post GetPostDetail(String postID) throws ClassNotFoundException, SQLException{
-		return this.postDAO.GetPostDetail(postID);
-	}
+//	public Post GetPostDetail(String postID) throws ClassNotFoundException, SQLException{
+//		return this.postDAO.GetPostDetail(postID);
+//	}
 	
 	public ArrayList<Post> GetListPostOfFriend(String userID) throws ClassNotFoundException, SQLException{
 		return this.postDAO.GetListPostOfFriend(userID);
@@ -24,16 +24,5 @@ public class PostService {
 	
 	public ArrayList<Post> GetListPostAndSharedOfUser(String userID) throws ClassNotFoundException, SQLException{
 		return this.postDAO.GetListPostAndSharedOfUser(userID);
-	}
-	
-	public int GetNumLikeOfPost(String postID) throws ClassNotFoundException, SQLException{
-		return this.postDAO.GetNumLikeOfPost(postID);
-	}
-	
-	public int GetNumSharedOfPost(String postID) throws ClassNotFoundException, SQLException{
-		return this.postDAO.GetNumSharedOfPost(postID);
-	}
-	public int GetNumCommentOfPost(String postID) throws ClassNotFoundException, SQLException{
-		return this.postDAO.GetNumCommentOfPost(postID);
 	}
 }
