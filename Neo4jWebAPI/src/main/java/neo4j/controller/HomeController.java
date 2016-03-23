@@ -27,19 +27,17 @@ public class HomeController {
     	System.out.println("get all comment");
         CommentService service = new CommentService();
         List<Comment> listComment = null; 
-        	try {
-			listComment = service.GetALLCommentOfPost(postID);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(listComment == null || listComment.size() == 0)
-			return new ResponseEntity<List<Comment>>(listComment, HttpStatus.BAD_REQUEST);
-		else
-			System.out.println("Posts count: " + listComment.size());
+        try {
+            listComment = service.GetALLCommentOfPost(postID);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(listComment == null || listComment.size() == 0)
+            return new ResponseEntity<List<Comment>>(listComment, HttpStatus.BAD_REQUEST);
+        else
+            System.out.println("Posts count: " + listComment.size());
         return new ResponseEntity<List<Comment>>(listComment, HttpStatus.OK);
         
     }
@@ -83,19 +81,36 @@ public class HomeController {
     	System.out.println("Controller Userid: " + userID);
         PostService service = new PostService();
         List<Post> posts = null;
-		try {
-			posts = service.GetListPostOfFriend(userID);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(posts == null || posts.size() == 0)
-			return new ResponseEntity<List<Post>>(posts, HttpStatus.BAD_REQUEST);
-		else
-			System.out.println("Posts count: " + posts.size());
+        try {
+            posts = service.GetListPostOfFriend(userID);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(posts == null || posts.size() == 0)
+            return new ResponseEntity<List<Post>>(posts, HttpStatus.BAD_REQUEST);
+        else
+            System.out.println("Posts count: " + posts.size());
+        return new ResponseEntity<List<Post>>(posts, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "/neo4j/getAllPostOfUser", method = RequestMethod.POST,headers="Accept=application/json")
+    public ResponseEntity<List<Post>> GetListPostAndSharedOfUser(@RequestBody String userID) {
+    	System.out.println("Controller Userid: " + userID);
+        PostService service = new PostService();
+        List<Post> posts = null;
+        try {
+            posts = service.GetListPostAndSharedOfUser(userID);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(posts == null || posts.size() == 0)
+            return new ResponseEntity<List<Post>>(posts, HttpStatus.BAD_REQUEST);
+        else
+            System.out.println("Posts count: " + posts.size());
         return new ResponseEntity<List<Post>>(posts, HttpStatus.OK);
     }
 }
