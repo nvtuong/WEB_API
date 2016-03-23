@@ -37,7 +37,7 @@ public class HomeController {
         if(listComment == null || listComment.size() == 0)
             return new ResponseEntity<List<Comment>>(listComment, HttpStatus.BAD_REQUEST);
         else
-            System.out.println("Posts count: " + listComment.size());
+            System.out.println("Comment count: " + listComment.size());
         return new ResponseEntity<List<Comment>>(listComment, HttpStatus.OK);
         
     }
@@ -91,7 +91,7 @@ public class HomeController {
         if(posts == null || posts.size() == 0)
             return new ResponseEntity<List<Post>>(posts, HttpStatus.BAD_REQUEST);
         else
-            System.out.println("Posts count: " + posts.size());
+            System.out.println("all Posts count: " + posts.size());
         return new ResponseEntity<List<Post>>(posts, HttpStatus.OK);
     }
     
@@ -110,7 +110,7 @@ public class HomeController {
         if(posts == null || posts.size() == 0)
             return new ResponseEntity<List<Post>>(posts, HttpStatus.BAD_REQUEST);
         else
-            System.out.println("Posts count: " + posts.size());
+            System.out.println("my Posts count: " + posts.size());
         return new ResponseEntity<List<Post>>(posts, HttpStatus.OK);
     }
 }
