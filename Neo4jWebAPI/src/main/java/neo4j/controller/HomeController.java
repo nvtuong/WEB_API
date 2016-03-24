@@ -1,8 +1,10 @@
 package neo4j.controller;
 
+import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import java.sql.SQLException;
 import java.util.List;
 import neo4j.bean.Comment;
+import neo4j.bean.Friend;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import neo4j.bean.User;
 import neo4j.service.AccountService;
 import neo4j.service.CommentService;
 import neo4j.service.PostService;
+import neo4j.service.UserService;
 
 
 @RestController
@@ -113,4 +116,17 @@ public class HomeController {
             System.out.println("my Posts count: " + posts.size());
         return new ResponseEntity<List<Post>>(posts, HttpStatus.OK);
     }
+    
+    @RequestMapping(value = "/neo4j/getAllFriend", method = RequestMethod.POST,headers="Accept=application/json")
+    public ResponseEntity<List<Friend>> getAllFriend(@RequestBody String userID) throws ClassNotFoundException, SQLException{
+    	System.out.println("Controller Userid: " + userID);
+        UserService service = new UserService();
+        List<Friend> listFriend = service.getAllFriend(userID);
+        if(listFriend == null || listFriend.size() == 0)
+            return new ResponseEntity<List<Friend>>(listFriend, HttpStatus.BAD_REQUEST);
+        else
+            System.out.println("my Friend count: " + listFriend.size());
+        return new ResponseEntity<List<Friend>>(listFriend, HttpStatus.OK);
+    }
+    
 }

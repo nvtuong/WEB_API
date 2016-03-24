@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import neo4j.bean.Friend;
 
 import neo4j.bean.User;
 
@@ -31,6 +33,30 @@ public class UserDAO {
                 System.out.println(result.getString("user.name"));
             }
             return user;
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public ArrayList<Friend> getAllFriend(String userId) throws SQLException, ClassNotFoundException {
+        String query = "match (a:User{id : '" + userId + "'}) - [FRIEND] -> (u:User) - [r:FRIEND] -> (User) "
+                + "return u.id, u.avatar, u.name, count(distinct r) as numFriend";
+	// Make sure Neo4j Driver is registered
+        Class.forName("org.neo4j.jdbc.Driver");
+	// Connect
+        Connection con = DriverManager.getConnection("jdbc:neo4j://localhost:7474/", "neo4j", "hvngoc");
+	// Querying
+        try {
+            final PreparedStatement statement = con.prepareStatement(query);
+            System.out.println("Done");
+            final ResultSet result = statement.executeQuery();
+            ArrayList<Friend> listFriend = new ArrayList<Friend>();
+            while(result.next()) {
+                User user = new User(result.getString("u.id"), result.getString("u.name"), result.getString("u.avatar"));
+                int numFriend = Integer.parseInt(result.getString("numFriend"));
+                listFriend.add(new Friend(user, numFriend));
+            }
+            return listFriend;
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
