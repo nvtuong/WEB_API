@@ -12,10 +12,12 @@ package neo4j.bean;
 public class Friend {
     private User user;
     private int numFriend;
+    private int mutualFriend;
 
-    public  Friend(User user, int numFriend){
+    public  Friend(User user, int numFriend, int mutualFriend){
         this.user = user;
         this.numFriend = numFriend;
+        this.mutualFriend = mutualFriend;
     }
 
     public String getId() {
@@ -32,5 +34,9 @@ public class Friend {
 
     public  int getNumFriend(){
         return  this.numFriend;
+    }
+    
+    public int getMutualFriend(){
+        return this.mutualFriend;
     }
 }

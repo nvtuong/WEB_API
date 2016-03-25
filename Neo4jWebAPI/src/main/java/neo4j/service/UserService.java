@@ -22,7 +22,10 @@ public class UserService {
     public ArrayList<Friend> getAllFriend(String userId) throws SQLException, ClassNotFoundException {
         return this.userDAO.getAllFriend(userId);
     }
-    
+        
+   public ArrayList<Friend> getSuggestFriend(String userId) throws SQLException, ClassNotFoundException {
+       return this.userDAO.getSuggestFriend(userId);
+   }
     
 //    public void setAvatarForUser(String userId, String avatar) throws SQLException, ClassNotFoundException {
 //        this.userDAO.setAvatarForUser(userId, avatar);

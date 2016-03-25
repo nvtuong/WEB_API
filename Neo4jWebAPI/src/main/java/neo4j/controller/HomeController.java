@@ -1,6 +1,5 @@
 package neo4j.controller;
 
-import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import java.sql.SQLException;
 import java.util.List;
 import neo4j.bean.Comment;
@@ -29,14 +28,7 @@ public class HomeController {
     {
     	System.out.println("get all comment");
         CommentService service = new CommentService();
-        List<Comment> listComment = null; 
-        try {
-            listComment = service.GetALLCommentOfPost(postID);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        List<Comment> listComment = service.GetALLCommentOfPost(postID);
         if(listComment == null || listComment.size() == 0)
             return new ResponseEntity<List<Comment>>(listComment, HttpStatus.BAD_REQUEST);
         else
@@ -80,17 +72,10 @@ public class HomeController {
     }
     
     @RequestMapping(value = "/neo4j/getAllPost", method = RequestMethod.POST,headers="Accept=application/json")
-    public ResponseEntity<List<Post>> getAllPostOfFriends(@RequestBody String userID) {
-    	System.out.println("Controller Userid: " + userID);
+    public ResponseEntity<List<Post>> getAllPostOfFriends(@RequestBody String userID) throws ClassNotFoundException, SQLException {
+    	System.out.println("Controller getAllPost Userid: " + userID);
         PostService service = new PostService();
-        List<Post> posts = null;
-        try {
-            posts = service.GetListPostOfFriend(userID);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        List<Post> posts = service.GetListPostOfFriend(userID);
         if(posts == null || posts.size() == 0)
             return new ResponseEntity<List<Post>>(posts, HttpStatus.BAD_REQUEST);
         else
@@ -99,17 +84,10 @@ public class HomeController {
     }
     
     @RequestMapping(value = "/neo4j/getAllPostOfUser", method = RequestMethod.POST,headers="Accept=application/json")
-    public ResponseEntity<List<Post>> GetListPostAndSharedOfUser(@RequestBody String userID) {
-    	System.out.println("Controller Userid: " + userID);
+    public ResponseEntity<List<Post>> GetListPostAndSharedOfUser(@RequestBody String userID) throws ClassNotFoundException, SQLException {
+    	System.out.println("Controller GetListPostAndSharedOfUser Userid: " + userID);
         PostService service = new PostService();
-        List<Post> posts = null;
-        try {
-            posts = service.GetListPostAndSharedOfUser(userID);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        List<Post> posts = service.GetListPostAndSharedOfUser(userID);
         if(posts == null || posts.size() == 0)
             return new ResponseEntity<List<Post>>(posts, HttpStatus.BAD_REQUEST);
         else
@@ -119,9 +97,21 @@ public class HomeController {
     
     @RequestMapping(value = "/neo4j/getAllFriend", method = RequestMethod.POST,headers="Accept=application/json")
     public ResponseEntity<List<Friend>> getAllFriend(@RequestBody String userID) throws ClassNotFoundException, SQLException{
-    	System.out.println("Controller Userid: " + userID);
+    	System.out.println("Controller getAllFriend Userid: " + userID);
         UserService service = new UserService();
         List<Friend> listFriend = service.getAllFriend(userID);
+        if(listFriend == null || listFriend.size() == 0)
+            return new ResponseEntity<List<Friend>>(listFriend, HttpStatus.BAD_REQUEST);
+        else
+            System.out.println("my Friend count: " + listFriend.size());
+        return new ResponseEntity<List<Friend>>(listFriend, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "/neo4j/getSuggestFriend", method = RequestMethod.POST,headers="Accept=application/json")
+    public ResponseEntity<List<Friend>> getSuggestFriend(@RequestBody String userID) throws ClassNotFoundException, SQLException{
+    	System.out.println("Controller getSuggestFriend Userid: " + userID);
+        UserService service = new UserService();
+        List<Friend> listFriend = service.getSuggestFriend(userID);
         if(listFriend == null || listFriend.size() == 0)
             return new ResponseEntity<List<Friend>>(listFriend, HttpStatus.BAD_REQUEST);
         else
