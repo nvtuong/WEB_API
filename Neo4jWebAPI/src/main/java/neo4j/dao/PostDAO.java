@@ -19,7 +19,7 @@ public class PostDAO {
                     + " Optional match (p) <- [s:SHARE] - (User)"
                     + " Optional match (p) <- [l:LIKE] - (User)"
                     + " Optional match p - [h: HAS_COMMENT] - > (Comment)"
-                    + " return p.id , p.content, p.listImage, p.location, p.day, p.feeling, "
+                    + " return p.id , p.content, p.listImage, p.Latitude, p.Longitude, p.day, p.feeling, "
                     + "uu.name, uu.avatar, r.name, "
                     + "count (distinct s) as numShared, count (distinct l) as numLiked, count (distinct h) as numComment";
             // Make sure Neo4j Driver is registered
@@ -35,7 +35,8 @@ public class PostDAO {
                 ArrayList<Post> listPost = new ArrayList<Post>();
                 while(result.next()){
                     Post post = new Post(result.getString("p.id"), result.getString("p.content"), 
-                            result.getString("p.listImage"), result.getString("p.day"), result.getString("p.location"), 
+                            result.getString("p.listImage"), result.getString("p.day"), 
+                            Double.parseDouble(result.getString("p.Latitude")), Double.parseDouble(result.getString("p.Longitude")), 
                             result.getString("p.feeling"), result.getString("uu.name"),result.getString("uu.avatar"),
                             result.getString("r.name"), Integer.parseInt(result.getString("numLiked")),
                             Integer.parseInt(result.getString("numShared")), Integer.parseInt(result.getString("numComment")));
@@ -56,7 +57,7 @@ public class PostDAO {
                     + " Optional match (p) <- [s:SHARE] - (User) "
                     + " Optional match (p) <- [l:LIKE] - (User)"
                     + " Optional match p - [h: HAS_COMMENT] - > (Comment) "
-                    + " return p.id , p.content, p.listImage, p.location, p.day, p.feeling, "
+                    + " return p.id , p.content, p.listImage, p.Latitude, p.Longitude, p.day, p.feeling, "
                     + " u.name, u.avatar, r.name, "
                     + " count (distinct s) as numShared, count (distinct l) as numLiked, count (distinct h) as numComment  ";
             // Make sure Neo4j Driver is registered
@@ -71,7 +72,8 @@ public class PostDAO {
                 ArrayList<Post> listPost = new ArrayList<Post>();
                 while(result.next()){
                     Post post = new Post(result.getString("p.id"), result.getString("p.content"), 
-                            result.getString("p.listImage"), result.getString("p.day"), result.getString("p.location"), 
+                            result.getString("p.listImage"), result.getString("p.day"),
+                            Double.parseDouble(result.getString("p.Latitude")), Double.parseDouble(result.getString("p.Longitude")), 
                             result.getString("p.feeling"), result.getString("u.name"),result.getString("u.avatar"),
                             result.getString("r.name"), Integer.parseInt(result.getString("numLiked")),
                             Integer.parseInt(result.getString("numShared")), Integer.parseInt(result.getString("numComment")));

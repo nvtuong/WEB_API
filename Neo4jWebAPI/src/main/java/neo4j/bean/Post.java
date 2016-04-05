@@ -6,8 +6,8 @@ public class Post {
 	private String content;
 	private String listImages;
 	private String postDate;
-	private String location;
         public String feeling;
+        public Double Latitude, Longitude;
         
 	public String userName, userAvatar;
         public String relationShip;
@@ -15,14 +15,15 @@ public class Post {
         public int numLike, numShare, numComment;
         
 	public Post (String postID, String content, String listImages,
-			String postDate, String location, String feeling,
+			String postDate, Double Latitude, Double Longitude, String feeling,
                         String userName, String userAvatar, String relationShip,
                         int numLike, int numShare, int numComment) {
 		this.setPostID(postID);
 		this.setContent(content);
 		this.setListImages(listImages);
 		this.setPostDate(postDate);
-		this.setLocation(location);
+                this.Latitude = Latitude;
+                this.Longitude = Longitude;
                 this.feeling = feeling;
                 this.userName = userName;
                 this.userAvatar = userAvatar;
@@ -64,13 +65,5 @@ public class Post {
 
 	public void setPostDate(String postDate) {
 		this.postDate = postDate;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
 	}
 }
